@@ -13,7 +13,7 @@ var webconfig = {
  
 function getBlog(){
      
-    var conn = new sql.Connection(webconfig);
+    var conn = new sql.ConnectionPool(webconfig);
     var req = new sql.Request(conn);
      
     conn.connect(function(error){
