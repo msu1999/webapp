@@ -1,23 +1,17 @@
-    var Connection = require('tedious').Connection;  
-    var config = {  
-        server: 'serverbau.database.windows.net',  //update me
-        authentication: {
-            type: 'default',
-            options: {
-                userName: 'salihadmin', //update me
-                password: 'Qwerty123.'  //update me
-            }
-        },
-        options: {
-            // If you are on Microsoft Azure, you need encryption:
-            encrypt: true,
-            database: 'db'  //update me
-        }
-    };  
-    var connection = new Connection(config);  
-    connection.on('connect', function(err) {  
-        // If no error, then good to proceed.
-        console.log("Connected");  
-    });
-    
-    connection.connect();
+
+    const sql = require('mssql')
+
+const AZURE_CONN_STRING = process.env["Server=serverbau.database.windows.net,1433;Database=db;User Id=salihadmin;Password=Qwerty123.;Encrypt=true"];
+
+module.exports = async function (context, req) {    
+    const pool = await sql.connect(AZURE_CONN_STRING);    
+
+    const busData = await pool.request()
+        .input("routeId", sql.Int, parseInt(req.query.rid))
+        .input("geofenceId", sql.Int, parseInt(req.query.gid))
+        .execute("web.GetMonitoredBusData");        
+
+    context.res = {        
+        body: JSON.parse(busData.recordset[0]["locationData"])
+    };
+}        
