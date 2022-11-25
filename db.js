@@ -1,17 +1,44 @@
+const sql = require('mssql')
 
-    const sql = require('mssql')
 
-const AZURE_CONN_STRING = process.env["Server=serverbau.database.windows.net,1433;Database=db;User Id=salihadmin;Password=Qwerty123.;Encrypt=true"];
+var sql = require("mssql");
+ 
+var webconfig = {
+    server: "serverbau.database.windows.net",
+    database:"db",
+    user:"adminsalih",
+    password:"Qwerty123."
+};
+ const AZURE_CONN_STRING = process.env["Server=serverbau.database.windows.net,1433;Database=db;User Id=salihadmin;Password=Qwerty123.;Encrypt=true"];
 
-module.exports = async function (context, req) {    
-    const pool = await sql.connect(AZURE_CONN_STRING);    
-
-    const busData = await pool.request()
-        .input("routeId", sql.Int, parseInt(req.query.rid))
-        .input("geofenceId", sql.Int, parseInt(req.query.gid))
-        .execute("web.GetMonitoredBusData");        
-
-    context.res = {        
-        body: JSON.parse(busData.recordset[0]["locationData"])
-    };
-}        
+ 
+ 
+function getBlog(){
+     
+    var conn = new sql.Connection(webconfig);
+    var req = new sql.Request(conn);
+     
+    conn.connect(function(error){
+         
+        if(error){
+             
+            console.log(err);
+            return;
+        }
+         
+        req.query("SELECT * FROM db",function(err, r){
+            if(err)
+            {
+                 
+            }
+            else{
+                console.log(r)
+            }
+             
+        })
+         
+    })
+     
+}
+ 
+getBlog();
