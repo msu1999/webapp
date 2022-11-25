@@ -1,7 +1,6 @@
 const sql = require('mssql')
 
 
-var sql = require("mssql");
  
 var webconfig = {
     server: "serverbau.database.windows.net",
