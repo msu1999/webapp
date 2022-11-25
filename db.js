@@ -3,16 +3,18 @@ const { Connection, Request } = require("tedious");
 // Create connection to database
 const config = {
   authentication: {
+    type: 'azure-active-directory-msi-vm',
     options: {
       userName: "salihadmin", // update me
       password: "Qwerty123." // update me
     },
     type: "default"
   },
-  server: "serverbau.database.windows.net", // update me
+  server: process.env["serverbau.database.windows.net"], // update me
   options: {
-    database: "db", //update me
-    encrypt: true
+    database: process.env["db"], //update me
+    encrypt: true,
+                port: 1433
   }
 };
 
