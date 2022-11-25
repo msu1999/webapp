@@ -1,20 +1,30 @@
-var http = require('http')
+var http = require('http');
 
-  var Connection = require('tedious').Connection;
-  var Request = require('tedious').Request
-  var TYPES = require('tedious').TYPES;
-
-  module.exports = function (context, myTimer) {
-      var _currentData = {};
-  
-      var config = {
-          userName: 'salihadmin',
+    var Connection = require('tedious').Connection;  
+    var config = {  
+        server: 'serverbau.database.windows.net',
+        authentication: {
+            type: 'default',
+            options: {
+              userName: 'salihadmin',
           password: 'Qwerty123.',
-          server: 'serverbau.database.windows.net',
-          options: {encrypt: true, database: 'db'}
-      };
-  
-      var connection = new Connection(config);
+            }
+        },
+        options: {
+            // If you are on Microsoft Azure, you need encryption:
+            encrypt: true,
+            database: 'db'
+        }
+    };  
+    var connection = new Connection(config);  
+    connection.on('connect', function(err) {  
+        // If no error, then good to proceed.
+        console.log("Connected");  
+    });
+    
+    connection.connect();
+
+      var _currentData = {};
 
 //////
 http.createServer(onRequest).listen(8888);
@@ -30,6 +40,13 @@ function onRequest(request, response){
           getData();
       });
   
+
+  response.end();
+}
+
+
+
+
       function getData() {
    console.log(' sql getData');
           request = new Request("SELECT * FROM db;", function(err) {
@@ -54,8 +71,4 @@ function onRequest(request, response){
       }
   
       context.done();
-  };
-
-  response.end();
-}
-
+  }
