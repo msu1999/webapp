@@ -10,9 +10,9 @@ const config = {
     },
     type: "default"
   },
-  server: process.env["serverbau.database.windows.net"], // update me
+  server: "serverbau.database.windows.net", // update me
   options: {
-    database: process.env["db"], //update me
+    database: "db", //update me
     encrypt: true,
                 port: 1433
   }
