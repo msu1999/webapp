@@ -3,6 +3,7 @@ http.createServer(onRequest).listen(8888);
 console.log('Server has started');
     
 var Connection = require('tedious').Connection;  
+console.log('tedious');
 
     var config = {  
         server: 'serverbau.database.windows.net',
@@ -19,8 +20,12 @@ var Connection = require('tedious').Connection;
             database: 'db'
         }
     };  
-   
-    var connection = new Connection(config);  
+
+
+    var connection = new Connection(config); 
+console.log('new cnx \n');
+
+
     connection.on('connect', function(err) {  
         // If no error, then good to proceed.  
         console.log("Connected");  
