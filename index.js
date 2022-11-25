@@ -11,19 +11,33 @@ console.log('tedious');
             type: 'default',
             options: {
               userName: 'salihadmin',
-    password: 'Qwerty123.',
+             password: 'Qwerty123.',
             }
         },
         options: {
             // If you are on Microsoft Azure, you need encryption:
             encrypt: true,
-            database: 'db'
+            port: 1433,
+                    integratedSecurity: true,
+        trustServerCertificate: true,
+            database: 'db',
+            trustServerCertificate: false,
+
         }
     };  
 
 
+
+
     var connection = new Connection(config); 
 console.log('new cnx \n');
+
+
+    connection.connect();
+  console.log('connect \n');
+
+    var Request = require('tedious').Request;  
+    var TYPES = require('tedious').TYPES;  
 
 
     connection.on('connect', function(err) {  
@@ -32,10 +46,6 @@ console.log('new cnx \n');
         executeStatement();  
     });  
     
-    connection.connect();
-  
-    var Request = require('tedious').Request;  
-    var TYPES = require('tedious').TYPES;  
   
     function executeStatement() {  
         request = new Request("SELECT * FROM db;", function(err) {  
@@ -65,7 +75,6 @@ console.log('new cnx \n');
                 response.writeHead(200);
          response.write('Hello Noders ');
         });
-
 
 
         connection.execSql(request);  
