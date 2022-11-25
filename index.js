@@ -6,7 +6,7 @@ console.log('Server has started');
 
 
 
-function onRequest(request, response){
+async function onRequest(request, response){
   response.writeHead(200);
   response.write('Hello Noders');
 
@@ -18,7 +18,20 @@ function onRequest(request, response){
 
         console.log(result);
 
-          response.write(result);
+let newResults = [];
+for(let key in result){
+   if(key === "recordsets"){
+      result[key].forEach(arr =>{
+        arr.forEach(obj =>{
+            Object.keys(obj).forEach((key) =>{
+              newResults.push(obj[key])
+            })
+          });
+      })
+   }
+}
+
+          response.write(newResults);
 
     } catch (err) {
         // ... error checks
