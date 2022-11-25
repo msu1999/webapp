@@ -4,7 +4,7 @@ http.createServer(onRequest).listen(8888);
 console.log('Server has started');
 
 function onRequest(request, response){
- 
+ console.log(' req ');
   var Connection = require('tedious').Connection;
   var Request = require('tedious').Request
   var TYPES = require('tedious').TYPES;
@@ -21,12 +21,13 @@ function onRequest(request, response){
   
       var connection = new Connection(config);
       connection.on('connect', function(err) {
+ console.log(' sql cnx');
           context.log("Connected");
           getData();
       });
   
       function getData() {
-  
+   console.log(' sql getData');
           request = new Request("SELECT * FROM db;", function(err) {
           if (err) {
               context.log(err);}
@@ -40,10 +41,12 @@ function onRequest(request, response){
   
           request.on('requestCompleted', function () {
               
-  response.writeHead(200);
-  response.write('Hello Noders');
+   console.log('requestCompleted');
+
           });
           connection.execSql(request);
+  response.writeHead(200);
+  response.write('Hello Noders');
       }
   
       context.done();
