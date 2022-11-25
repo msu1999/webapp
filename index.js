@@ -1,8 +1,8 @@
 var http = require('http');
-
 http.createServer(onRequest).listen(8888);
 console.log('Server has started');
-    var Connection = require('tedious').Connection;  
+    
+var Connection = require('tedious').Connection;  
 
     var config = {  
         server: 'serverbau.database.windows.net',
@@ -10,7 +10,7 @@ console.log('Server has started');
             type: 'default',
             options: {
               userName: 'salihadmin',
-          password: 'Qwerty123.',
+    password: 'Qwerty123.',
             }
         },
         options: {
@@ -58,11 +58,12 @@ console.log('Server has started');
         request.on("requestCompleted", function (rowCount, more) {
             connection.close();
                 response.writeHead(200);
-         response.write('Hello Noders');
+         response.write('Hello Noders ');
         });
-        connection.execSql(request);  
 
-      
+
+
+        connection.execSql(request);  
 
     }  
       
@@ -70,8 +71,6 @@ console.log('Server has started');
 
 
 function onRequest(request, response){
-            executeStatement();  
-
   response.writeHead(200);
   response.write('Hello Noders');
   response.end();
