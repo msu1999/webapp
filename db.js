@@ -20,14 +20,15 @@ function getBlog(){
          
         if(error){
              
-            console.log(err);
+            console.log(error);
             return;
         }
          
-        req.query("SELECT * FROM db",function(err, r){
-            if(err)
+        req.query("SELECT * FROM db",function(error, r){
+            if(error)
             {
-                 
+                               console.log(error)
+  
             }
             else{
                 console.log(r)
