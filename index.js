@@ -11,6 +11,10 @@ async () => {
         await sql.connect('Server=serverbau.database.windows.netd,1433;Database=db;User Id=salihadmin;Password=Qwerty123.;Encrypt=true')
         const result = await sql.query`select * from db`
         console.dir(result);
+        console.log('await has started');
+
+        console.log(result);
+
           response.write(result);
 
     } catch (err) {
