@@ -33,8 +33,7 @@ console.log('tedious');
 console.log('new cnx \n');
 
 
-    connection.connect();
-  console.log('connect \n');
+
 
     var Request = require('tedious').Request;  
     var TYPES = require('tedious').TYPES;  
@@ -46,7 +45,8 @@ console.log('new cnx \n');
         executeStatement();  
     });  
     
-  
+      connection.connect();
+  console.log('connect \n');
     function executeStatement() {  
         request = new Request("SELECT * FROM db;", function(err) {  
         if (err) {  
