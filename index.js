@@ -33,10 +33,8 @@ for(let key in result){
 
           response.write(newResults);
 
-    } catch (err) {
-        // ... error checks
-    }
-
 
 
   response.end();
+
+}
