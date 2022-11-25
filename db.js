@@ -1,5 +1,4 @@
-const sql = require('mssql')
-
+var sql = require('mssql')
 
  
 var webconfig = {
