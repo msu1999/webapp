@@ -4,8 +4,7 @@ http.createServer(onRequest).listen(8888);
 console.log('Server has started');
 
 function onRequest(request, response){
-  response.writeHead(200);
-  response.write('Hello Noders');
+  
 
 
   var Connection = require('tedious').Connection;
@@ -42,11 +41,12 @@ function onRequest(request, response){
           });
   
           request.on('requestCompleted', function () {
-              //
+              
+  response.writeHead(200);
+  response.write('Hello Noders');
           });
           connection.execSql(request);
       }
-  
   
       context.done();
   };
