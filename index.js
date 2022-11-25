@@ -1,6 +1,9 @@
 var http = require('http');
 
+http.createServer(onRequest).listen(8888);
+console.log('Server has started');
     var Connection = require('tedious').Connection;  
+
     var config = {  
         server: 'serverbau.database.windows.net',
         authentication: {
@@ -16,59 +19,60 @@ var http = require('http');
             database: 'db'
         }
     };  
+   
     var connection = new Connection(config);  
     connection.on('connect', function(err) {  
-        // If no error, then good to proceed.
+        // If no error, then good to proceed.  
         console.log("Connected");  
-    });
+        executeStatement();  
+    });  
     
     connection.connect();
+  
+    var Request = require('tedious').Request;  
+    var TYPES = require('tedious').TYPES;  
+  
+    function executeStatement() {  
+        request = new Request("SELECT * FROM db;", function(err) {  
+        if (err) {  
+            console.log(err);}  
+        });  
+        var result = "";  
+        request.on('row', function(columns) {  
+            columns.forEach(function(column) {  
+              if (column.value === null) {  
+                console.log('NULL');  
+              } else {  
+                result+= column.value + " ";  
+              }  
+            });  
+            console.log(result);  
+            result ="";  
+        });  
+  
+        request.on('done', function(rowCount, more) {  
+        console.log(rowCount + ' rows returned');  
+        });  
+        
+        // Close the connection after the final event emitted by the request, after the callback passes
+        request.on("requestCompleted", function (rowCount, more) {
+            connection.close();
+                response.writeHead(200);
+         response.write('Hello Noders');
+        });
+        connection.execSql(request);  
 
-      var _currentData = {};
+      
 
-//////
-http.createServer(onRequest).listen(8888);
+    }  
+      
+ 
 
-console.log('Server has started');
 
 function onRequest(request, response){
- console.log(' req ');
-  
-      connection.on('connect', function(err) {
- console.log(' sql cnx');
-          context.log("Connected");
-          getData();
-      });
-  
+            executeStatement();  
 
-  response.end();
-}
-
-
-
-
-      function getData() {
-   console.log(' sql getData');
-          request = new Request("SELECT * FROM db;", function(err) {
-          if (err) {
-              context.log(err);}
-          });
-  
-          request.on('row', function(columns) {
-              _currentData.Best = columns[0].value;
-              _currentData.Average = columns[1].value;;
-              context.log(_currentData);
-          });
-  
-          request.on('requestCompleted', function () {
-              
-   console.log('requestCompleted');
-
-          });
-          connection.execSql(request);
   response.writeHead(200);
   response.write('Hello Noders');
-      }
-  
-      context.done();
-  }
+  response.end();
+}
