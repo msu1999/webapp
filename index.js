@@ -1,14 +1,9 @@
 var http = require('http')
 
-http.createServer(onRequest).listen(8888);
-console.log('Server has started');
-
-function onRequest(request, response){
- console.log(' req ');
   var Connection = require('tedious').Connection;
   var Request = require('tedious').Request
   var TYPES = require('tedious').TYPES;
-  
+
   module.exports = function (context, myTimer) {
       var _currentData = {};
   
@@ -20,6 +15,15 @@ function onRequest(request, response){
       };
   
       var connection = new Connection(config);
+
+//////
+http.createServer(onRequest).listen(8888);
+
+console.log('Server has started');
+
+function onRequest(request, response){
+ console.log(' req ');
+  
       connection.on('connect', function(err) {
  console.log(' sql cnx');
           context.log("Connected");
