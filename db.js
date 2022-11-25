@@ -1,43 +1,41 @@
-var sql = require('mssql')
+const mysql = require('mysql');
+const fs = require('fs');
 
- 
-var webconfig = {
-    server: "serverbau.database.windows.net",
-    database:"db",
-    user:"adminsalih",
-    password:"Qwerty123."
+var config =
+{
+    host: 'serverbau.database.windows.com',
+    user: 'adminsalih',
+    password: 'your_password',
+    database: 'Qwerty123.'
 };
- const AZURE_CONN_STRING = process.env["Server=serverbau.database.windows.net,1433;Database=db;User Id=salihadmin;Password=Qwerty123.;Encrypt=true"];
 
- 
- 
-function getBlog(){
-     
-    var conn = new sql.ConnectionPool(webconfig);
-    var req = new sql.Request(conn);
-     
-    conn.connect(function(error){
-         
-        if(error){
-             
-            console.log(error);
-            return;
+const conn = new mysql.createConnection(config);
+
+conn.connect(
+    function (err) { 
+        if (err) { 
+            console.log("!!! Cannot connect !!! Error:");
+            throw err;
         }
-         
-        req.query("SELECT * FROM db",function(error, r){
-            if(error)
-            {
-                               console.log(error)
-  
+        else {
+            console.log("Connection established.");
+            readData();
+        }
+    });
+
+function readData(){
+    conn.query('SELECT * FROM inventory', 
+        function (err, results, fields) {
+            if (err) throw err;
+            else console.log('Selected ' + results.length + ' row(s).');
+            for (i = 0; i < results.length; i++) {
+                console.log('Row: ' + JSON.stringify(results[i]));
             }
-            else{
-                console.log(r)
-            }
-             
+            console.log('Done.');
         })
-         
-    })
-     
-}
- 
-getBlog();
+    conn.end(
+        function (err) { 
+            if (err) throw err;
+            else  console.log('Closing connection.') 
+    });
+};
